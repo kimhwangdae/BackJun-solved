@@ -1,9 +1,7 @@
-# Code Structure
+# 제출 파일
 ```
-├── code/                                              
-│   └── 카카오뱅크.ipynb                                           
-├── result/                     
-│     └── result.csv
+├── 카카오뱅크.ipynb                                                                                        
+├── result.csv                     
 └── README.md                  
     
 ```
@@ -39,6 +37,11 @@
 - test.csv의 int 형태의 큰 수를 float 형태로 변환하여 사용함.
 
 
+# 평가 지표
+- label 불균형이 심했고, 물건을 구입하는 고객의 분류하는 task 였기 때문에, 정확도보다 F1 Score 혹은 Recall 이 조금 더
+적합한 평가지표라고 생각함. 
+- 하지만 시험에 통과하기 위해, 보다 많은 label을 맞출 필요가 있었기에 정확도를 기준으로 모델을 선정하기로 함.
+
 # Model 탐색
 ***
   주어진 feature로 Class를 분류하는 문제로 판단하여 분류 모델을 적용하였습니다.
@@ -47,69 +50,53 @@
 
 ## Random forest
 
+### Random forest 결과
+![랜덤포레스트 결과](https://user-images.githubusercontent.com/59689327/149052683-87dfbe9a-f8f5-4dbc-b4fa-6749db7673b1.PNG)
+### Feature 중요도
+![랜덤포레스트 피처중요도](https://user-images.githubusercontent.com/59689327/149052685-133d26f7-0345-43d2-b951-8110756f1d9c.PNG)
+
+## catboost
+
+### catboost 결과
+![catboost 결과](https://user-images.githubusercontent.com/59689327/149052669-74ac5f34-cfbd-4cc5-9b07-9d50c4b99842.PNG)
+
+## costom_neural_network
 ### 결과
-![랜덤 포레스트 전처리 전 score](https://user-images.githubusercontent.com/59689327/142750842-b98fc94d-3d96-4a4c-8d08-9498511bc6ed.PNG)
-### DataProcessing 적용 후 결과
-![랜덤 포레스트 전처리 후 score](https://user-images.githubusercontent.com/59689327/142750843-7d64d706-d116-4c48-bc82-df926a60157a.PNG)
-### Feature 중요도
-#### 전처리 전
-![랜덤 포레스트 전처리전 피처 중요도](https://user-images.githubusercontent.com/59689327/142750846-eba192f9-0798-4761-ab1b-f8cb44b58fce.PNG)
-#### 전처리 후
-![랜덤 포레스트 전처리 후 피처 중요도](https://user-images.githubusercontent.com/59689327/142750844-26e3f22f-6cbf-4996-84ef-f4c867a27580.PNG)
+![신경망 결과](https://user-images.githubusercontent.com/59689327/149052665-250c08e0-8b11-4396-91dd-a09601aa6ee9.PNG)
 
-- Model의 학습이 빠르다는 장점을 이용하여,  전처리 후 와 전처리 전의 성능을 확인 해봤으나 오히려 떨어진 것을 확인했습니다.
-
-- 상관계수가 낮은 Featrue들이 많이 늘어나면서 오히려 성능이 감소된것으로 예상됨
-
-## XGboost
-
-### DataProcessing 적용 전 결과
-![xgboost 전처리전 score](https://user-images.githubusercontent.com/59689327/142750841-0c3b5f71-9199-44dd-b9c8-296cd96c17ce.PNG)
-
-### DataProcessing 적용 후 결과
-![xgboost 전처리 후 score](https://user-images.githubusercontent.com/59689327/142750838-12fdbdc2-70d1-405a-96e7-9f1e60ef366b.PNG)
-
-### Feature 중요도
-
-#### 전처리 전 
-
-![xgboost 전처리 전 피처중요도](https://user-images.githubusercontent.com/59689327/142750835-9381604b-5097-4dfd-a0e1-6f8b85d44d83.PNG)
-
-#### 전처리 후
-
-![xgboost 전처리 후 피처중요도](https://user-images.githubusercontent.com/59689327/142750839-cadc8208-85f1-40f1-ae1f-f16ed7444c2f.PNG)
-
-- 약한 분류기를 강화하며 앙상블하는 XGboost의 모델의 특성 덕분에 Feature가 늘어났을 때, 성능의 향상을 확인할 수 있었음
-- 하지만 학습시간이 너무 오래걸리기 때문에 하이퍼파라미터를 찾는데 너무 긴 시간이 소요되어 최종 Model 선택에서 배제
-
-## lightGBM
-
-### DataProcessing 적용 전 결과
-![LGBM 전처리 전 score](https://user-images.githubusercontent.com/59689327/142750829-9199f9a7-1e9f-4185-bec9-20f4781fb04a.PNG)
-
-### DataProcessing 적용 후 결과
-![LGBM 전처리후 score](https://user-images.githubusercontent.com/59689327/142750833-b074ca9b-64f6-4664-92a9-ad905cd1e2e2.PNG)
-
-### Feature 중요도
-#### 전처리 전
-![전처리x_lightgbm feacture 중요도](https://user-images.githubusercontent.com/59689327/142750852-033f7b80-169f-409e-bea6-7cfb9daa9733.PNG)
-#### 전처리 후
-![전처리o_lightgbm feacuture 중요도](https://user-images.githubusercontent.com/59689327/142750850-dc8fdb5d-c05d-4232-96d9-47032ff7abb1.PNG)
-
-- xgboost에 비해서 엄청나게 학습시간을 단축할 수 있었음
-- 전처리 후, 성능의 향상을 확인할 수 있었음
-- 하이퍼 파라미터 서치, 상관계수가 낮은 Feature를 제거하는 방식으로 성능을 향상을 시도함
-
-# Model 선택 및 하이퍼 파라미터 서치
-
-***
-  위와 같은 시험 결과로 최종적으로 lightgbm model을 선택했습니다.
-***
-## 하이퍼 파라미터 서치
-![lgbm 하이퍼파라미터](https://user-images.githubusercontent.com/59689327/142750834-1aa485ad-c5b8-4b65-b134-f85ba60cf342.PNG)
-
-# 평가 및 분석
-- Data의 예측 Calss 불균형이 심했기 때문에, 정확도보다 F1 Score macro가 평가지표로 타당하다고 판단함
-- LightGBM Model을 이용해, Tesk1 과 Tesk2의 Class 분류 모델을 만든 결과 F1 Score macro 기준 0.85,0.79의 성능을 나타내는 것을 확인 할 수 있었음
+## light GBM
+### ligth GBM 결과
+![lgbm 결과](https://user-images.githubusercontent.com/59689327/149052673-d8457619-5d5d-46e9-88ca-4d867d7e51ca.PNG)
+### ligth GBM 피처 중요도
 
 
+- 정확도를 기준으로 light GBM이 가장 높았기 때문에, light GBM을 최종 Model로 선정
+- 하이퍼파라미터 서치를 진행하여,하이퍼파미터를 확정함.
+
+# second_data_processing 후 LGBM 적용
+- categorical_feature_9,6 integer_feature 4,1 를 제거함
+- 나머지 column들의 결측치에 대해 row 단위로 전부 제거하여 약 5.9만개의 dataset을 얻음
+
+## 결과
+![두번째 전처리후 lgbm 결과](https://user-images.githubusercontent.com/59689327/149052679-9c7ec420-893d-4070-9562-135414088102.PNG)
+## 피처중요도
+![두번째 전처리후 lgbm 피처중요도 결과](https://user-images.githubusercontent.com/59689327/149052681-119fed55-e550-41da-b04c-2c5ed1e4aa34.PNG)
+
+# third_data_processing 후 LGBM 적용
+
+## 결과
+![세번째 전처리후 lgbm 결과](https://user-images.githubusercontent.com/59689327/149052689-da99f849-c07e-4dc4-bceb-499c3ebe2158.PNG)
+## 피처중요도
+![세번째 전처리후 lgbm 피처중요도 결과](https://user-images.githubusercontent.com/59689327/149052691-6febe3a3-dd58-4869-8ce7-fe6622666a26.PNG)
+
+# 최종 평가
+- 결측치를 모두 제거하여 약 8000개의 데이터 셋을 사용했을 때보다 선형회귀 모델로 결측치를 예측하여 대체 했을 때,
+***정확도 기준 약 20점의 향상을 얻을 수 있었음***
+- 결측치를 모두 제거하여 약 8000개의 데이터 셋을 사용했을 때보다 선형회귀 모델로 결측치를 예측하여 대체 했을 때,
+재현율이나 F1 score가 떨어진 것을 볼 수 있는데 이것은 데이터 셋이 크기가 8천개에서 6만개로 증가하여 발생한 현상이라고 예측됨
+
+# 해볼만한 시도
+- 결측치가 80% 이상이 넘는 feature들을 제거하여 사용했지만, 이 결측치를 정확히 예측할 수 있는 모델을 설계하여
+결측치를 대체한다면 더욱 성능향상을 얻을 수 있을 것이라고 기대됨.
+- 신경망 모델에 conv layer를 쌓아서 feature간의 관계를 반영하는 model을 시도
+- 위에서 만든 여러가지 모델을 voting 하여 최종적인 test.csv를 생성 했다면 더 좋은 결과를 얻을 수 있을것이라고 생각됨.
