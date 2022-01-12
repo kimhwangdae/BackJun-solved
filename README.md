@@ -10,8 +10,6 @@
   * 쥬피터 노트북을 사용했기 때문에 처음부터 처음 쉘부터 실행하면 됩니다.
  
 # 데이터 탐색
-![train 결측치](https://user-images.githubusercontent.com/59689327/149055518-81f3082a-097d-48aa-bb5e-c18c3108c8c5.PNG)
-![train_label 불균형](https://user-images.githubusercontent.com/59689327/149055522-e153aca6-17e3-422e-952d-5145b0939b47.PNG)
 
 ## train.csv , validatio.csv
 - lable 0 이 label 1보다 약 3배 많음
@@ -19,11 +17,15 @@
 - categorical_feature_9,6 integer_feature 4,1 은 약 80% 이상이 결측치
 - categorical_feature 4, interger_feature 8,7,6,2 결측치 대체가 필요
 
+![train 결측치](https://user-images.githubusercontent.com/59689327/149055518-81f3082a-097d-48aa-bb5e-c18c3108c8c5.PNG)
+
 ## test.csv
 - 결측치가 많음
 - categorical_feature_9,6 integer_feature 4,1 은 약 80% 이상이 결측치
 - categorical_feature 4, interger_feature 8,7,6,2 결측치 대체가 필요
 - categorical_feautre에 str 형태가 아닌 int 형태의 큰 수가 들어 있음
+
+![train_label 불균형](https://user-images.githubusercontent.com/59689327/149055522-e153aca6-17e3-422e-952d-5145b0939b47.PNG)
 
 
 # data_processing
