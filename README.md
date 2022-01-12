@@ -1,81 +1,53 @@
 # Code Structure
 ```
-├── code/                   
-│   ├── webserver.py
-│   ├── utils.py                                
-│   ├── data_processing.py                               
-│   ├── inference.py                            
-│   └── train.py                    
-│
-├── model/                     
-│     ├── tesk1.dat
-│     └── tesk2.dat                         
+├── code/                                              
+│   └── 카카오뱅크.ipynb                                           
 ├── result/                     
-│     ├── tesk1.txt
-│     └── tesk2.txt
-└── templates/                        
-      └── class.html
+│     └── result.csv
+└── README.md                  
     
 ```
 
 # 실행 방법
-  * Train Model
-  ``` 
-    python train.py --tesk_number [input] --output_modelname [input]
-
-  ```
-testk_number: 몇번 째, Tesk인지 지정하여 Tesk에 맞는 Model을 학습합니다.
- 
-output_modelname: 저장될 Model의 Name을 정합니다.
-
-  * Inference
-  ``` 
-    python inference.py --model_path [input] --tesk_number [input] --save_text_name [input]
-
-  ```
-model_path : 학습한 Model이 저장된 Path를 입력합니다.
- 
-tesk_number : 몇번 째, Tesk를 inference 할 것인지 입력합니다.
-
-save_text_name : Testdataset의 Class를 예측 한, Text 파일의 이름을 입력합니다.
-  
-  * Webserver
-  ``` 
-    python webserver.py 
-  
-  ```
+  * 쥬피터 노트북을 사용했기 때문에 처음부터 처음 쉘부터 실행하면 됩니다.
  
 # 데이터 탐색
-## Sparse Dataset
-![Data불균형](https://user-images.githubusercontent.com/59689327/142750853-e3a022e9-d3b7-4aef-992f-517c369b1e37.PNG)
-- class가 매우 불균형하게 분포되어 있음
-- Column[1]의 경우 무언가를 embedding 한 것같은 자료형
-- 결측치는 없음
-- 날짜데이터를 전처리해야할 필요성
-- Data의 Size는 10만 개 Column은 총 8개
-- Column[2]와 Class의 상관관계는 0.4로 Column들 중 가장 높았음
+## train.csv , validatio.csv
+- lable 0 이 label 1보다 약 3배 많음
+- 결측치가 많음
+- categorical_feature_9,6 integer_feature 4,1 은 약 80% 이상이 결측치
+- categorical_feature 4, interger_feature 8,7,6,2 결측치 대체가 필요
 
-## Dense Dastaset
-- Data의 Size는 10만 개 Column은 총 200개
-- 결측치는 없음
-- 데이터값들의 차이가 크지 않음
-- class가 불균형하게 불포되어 있음
+## test.csv
+- 결측치가 많음
+- categorical_feature_9,6 integer_feature 4,1 은 약 80% 이상이 결측치
+- categorical_feature 4, interger_feature 8,7,6,2 결측치 대체가 필요
+- categorical_feautre에 str 형태가 아닌 int 형태의 큰 수가 들어 있음
 
-# Data_processing
-## Sparse Dataset
-- 날짜 데이터를 연도,달,날짜,시간으로 나눠준후 Column에 추가
-- Colunm[1]의 경우 최대 길이가 64라는 것을 확인
-- 모든 Colunm[1]의 값들을 64만큼 padding 하여, Column에 추가
 
-## Dense Dataset
-- 특별한 전처리를 해주지 않았음
+# data_processing
+## frist_data_processing
+- 분류 model을 찾기 위해, 결측치를 row 단위로 전부 제거하여 약 8000개의 dataset을 얻음
+
+## second_data_processing
+- categorical_feature_9,6 integer_feature 4,1 를 제거함
+- 나머지 column들의 결측치에 대해 row 단위로 전부 제거하여 약 5.9만개의 dataset을 얻음
+
+## third_data_processing
+- categorical_feature_9,6 integer_feature 4,1 를 제거함
+- categorical_feature 4, interger_feature 8,7,6,2 결측치를 대체 하기 위해 선형 회귀 모델을 만들어 대체 함
+- test.csv의 int 형태의 큰 수를 float 형태로 변환하여 사용함.
+
 
 # Model 탐색
 ***
   주어진 feature로 Class를 분류하는 문제로 판단하여 분류 모델을 적용하였습니다.
 ***
+- 첫 번째, 전처리로 얻은 약 8천개의 데이터를 사용하여, Model을 탐색함
+
 ## Random forest
-### DataProcessing 적용 전 결과
+
+### 결과
 ![랜덤 포레스트 전처리 전 score](https://user-images.githubusercontent.com/59689327/142750842-b98fc94d-3d96-4a4c-8d08-9498511bc6ed.PNG)
 ### DataProcessing 적용 후 결과
 ![랜덤 포레스트 전처리 후 score](https://user-images.githubusercontent.com/59689327/142750843-7d64d706-d116-4c48-bc82-df926a60157a.PNG)
