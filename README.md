@@ -16,6 +16,7 @@
 - 결측치가 많음
 - categorical_feature_9,6 integer_feature 4,1 은 약 80% 이상이 결측치
 - categorical_feature 4, interger_feature 8,7,6,2 결측치 대체가 필요
+
 ![train_label 불균형](https://user-images.githubusercontent.com/59689327/149055522-e153aca6-17e3-422e-952d-5145b0939b47.PNG)
 
 
